@@ -11,7 +11,15 @@ use Blogger\BlogBundle\Form\EnquiryType;
 class PageController extends Controller {
 
     public function indexAction() {
-        return $this->render('BloggerBlogBundle:Page:index.html.twig');
+        $em = $this->getDoctrine()
+                ->getEntityManager();
+
+        $blogs = $em->getRepository('BloggerBlogBundle:Blog')
+                ->getLatestBlogs();
+
+        return $this->render('BloggerBlogBundle:Page:index.html.twig', array(
+                    'blogs' => $blogs
+                ));
     }
 
     public function aboutAction() {
